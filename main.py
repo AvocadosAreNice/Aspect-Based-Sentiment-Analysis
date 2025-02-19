@@ -4,6 +4,11 @@ import time
 import numpy as np
 from cleaning import clean, compound_words
 
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('words')
+
 # Load your trained model and TF-IDF vectorizer
 model = joblib.load("aspect_sentiment_model.pkl")
 tfidf = joblib.load('tfidfVectorizer.pkl')
