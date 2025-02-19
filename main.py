@@ -2,6 +2,7 @@ import streamlit as st
 import joblib
 import time
 import numpy as np
+import nltk
 from cleaning import clean, compound_words, lemmatize_words
 
 nltk.download('stopwords')
