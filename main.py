@@ -43,7 +43,6 @@ if st.button("Analyze Sentiment"):
     progress_bar = st.progress(0)
     if review.strip():
         review = clean(review)
-        review = lemmatize_words(review)
 
         # Transform the review using TF-IDF
         review_tfidf = tfidf.transform([review])
