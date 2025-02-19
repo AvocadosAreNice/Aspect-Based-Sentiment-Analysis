@@ -15,18 +15,13 @@ model = joblib.load("aspect_sentiment_model.pkl")
 tfidf = joblib.load('tfidfVectorizer.pkl')
 
 def predict_sentiment(review_tfidf):
-    # Make predictions using the trained model
     sentiments = model.predict(review_tfidf)
-
-    # If the model is a multi-label classifier, it will return a 2D array
-    # Assuming the model returns sentiment for each aspect (e.g., overall, camera, price, interaction)
     aspects = ["overall", "camera", "price", "interaction"]
     for i in range(100):
         progress_bar.progress(i + 1)
-        time.sleep(0.02)  # Simulate delay while predicting sentiment
+        time.sleep(0.02)  
 
-    # Return predictions as a dictionary
-    return dict(zip(aspects, sentiments[0]))  # Ensure sentiments[0] is the correct format
+    return dict(zip(aspects, sentiments[0]))  
 
 
 st.set_page_config(page_title="Analysing iPhone Reviews")
@@ -51,15 +46,12 @@ if st.button("Analyze Sentiment"):
         sentiment_results = predict_sentiment(review_tfidf)
 
         st.subheader("Sentiment Results")
-
-        # Displaying sentiment results in a horizontal list with emojis
         emojis = {
             "positive": "😊",
             "negative": "😡",
             "neutral": "😐"
         }
 
-        # Create columns for each aspect
         cols = st.columns(4)
         for i, (aspect, sentiment) in enumerate(sentiment_results.items()):
             emoji = emojis.get(sentiment, "😶")
