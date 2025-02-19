@@ -2,7 +2,7 @@ import streamlit as st
 import joblib
 import time
 import numpy as np
-from cleaning import clean, compound_words
+from cleaning import clean, compound_words, lemmatize_words
 
 nltk.download('stopwords')
 nltk.download('punkt')
@@ -42,7 +42,7 @@ if st.button("Analyze Sentiment"):
     progress_bar = st.progress(0)
     if review.strip():
         review = clean(review)
-        review = compound_words(review)
+        review = lemmatize_words(review)
 
         # Transform the review using TF-IDF
         review_tfidf = tfidf.transform([review])
