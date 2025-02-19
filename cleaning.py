@@ -1,15 +1,19 @@
 # Text Preprocessing
-import joblib
+import nltk
+from nltk import pos_tag
 from nltk.tokenize import word_tokenize, MWETokenizer
+from nltk.util import ngrams
+from nltk.probability import FreqDist
 from nltk.corpus import stopwords, words, wordnet
 from nltk.stem import WordNetLemmatizer
 import string
 
-from sklearn.feature_extraction.text import TfidfVectorizer
-from gensim.models import Word2Vec
-from sklearn.model_selection import train_test_split
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('words')
 
-# Cleaning Functions
+
 stop = set(stopwords.words('english'))
 exclude = set(string.punctuation)
 lemma = WordNetLemmatizer()
@@ -24,6 +28,25 @@ def clean(text):
 
     final = ' '.join([word for word in valid.split() if len(word) >= 3])
     return final
+
+def get_pos(tag):
+    if tag.startswith('J'):
+        return wordnet.ADJ
+    elif tag.startswith('V'):
+        return wordnet.VERB
+    elif tag.startswith('N'):
+        return wordnet.NOUN
+    elif tag.startswith('R'):
+        return wordnet.ADV
+    else:
+        return wordnet.NOUN
+
+def lemmatize_words(text):
+    lemmatizer = WordNetLemmatizer()
+    tokens = word_tokenize(text)
+    pos_tags = pos_tag(tokens) 
+    lemmatized_tokens = [lemmatizer.lemmatize(word, get_pos(tag)) for word, tag in pos_tags]
+    return " ".join(lemmatized_tokens)
 
 
 def compound_words(text):
